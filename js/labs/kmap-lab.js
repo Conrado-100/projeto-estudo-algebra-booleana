@@ -1,6 +1,10 @@
 /**
- * Laboratório do Mapa de Karnaugh - Layout Académico com Colchetes de Veitch-Karnaugh
- * Notação fiel ao quadro docente: Barras A, B, C, D e traço (—) para termos barrados.
+ * Laboratório do Mapa de Karnaugh - Notação Acadêmica Veitch-Karnaugh
+ * Disposição Exata:
+ * - TOPO: B (duas colunas da esquerda = —, duas da direita = B)
+ * - ESQUERDA: A (duas linhas de cima = —, duas de baixo = A)
+ * - DIREITA: C (linha superior/inferior = —, duas centrais = C)
+ * - FUNDO: D (coluna esquerda/direita = —, duas centrais = D)
  */
 const KMapLab = {
   numVars: 4,
@@ -9,12 +13,11 @@ const KMapLab = {
   render(container) {
     container.innerHTML = `
       <div class="card-box">
-        <!-- Cabeçalho de Controlo -->
         <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 1rem;">
           <div>
             <h2 class="card-title" style="margin: 0;">Mapa de Karnaugh (Notação Tradicional)</h2>
             <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 0.25rem;">
-              Formatação académica com barras de delimitação ($A, B, C, D$) e indicação de barrados ($—$).
+              Distribuição oficial de quadra: A (Esquerda), B (Topo), C (Direita) e D (Fundo).
             </p>
           </div>
           <div style="display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;">
@@ -29,19 +32,18 @@ const KMapLab = {
           </div>
         </div>
 
-        <!-- Legenda Académica -->
         <div class="kmap-legend-box">
-          <span class="legend-item"><span class="legend-badge badge-active">1</span> Ligado</span>
-          <span class="legend-item"><span class="legend-badge badge-zero">0</span> Desligado</span>
-          <span class="legend-item"><strong>Legenda das Barras:</strong> As linhas contínuas assinalam a região da variável direta ($1$). O símbolo <strong>—</strong> indica a região barrada ($0$).</span>
+          <span class="legend-item"><span class="legend-badge badge-active">1</span> Célula Ativa</span>
+          <span class="legend-item"><span class="legend-badge badge-zero">0</span> Célula Inativa</span>
+          <span class="legend-item"><strong>Legenda:</strong> As letras azuis (A, B, C, D) indicam valor 1. O traço vermelho <strong>—</strong> indica a região barrada (0).</span>
         </div>
 
-        <!-- Contentor do Mapa -->
-        <div id="kmap-wrapper" class="kmap-wrapper" style="display: flex; justify-content: center; padding: 1rem 0;">
+        <!-- Container do Mapa -->
+        <div id="kmap-wrapper" class="kmap-wrapper" style="display: flex; justify-content: center; padding: 0.5rem 0;">
           <div id="kmap-grid-container"></div>
         </div>
 
-        <!-- Resultado da Minimização -->
+        <!-- Resultado -->
         <div class="card-box" style="margin-top: 1.5rem; background: var(--bg-dark); border-color: var(--primary);">
           <h3 style="color: var(--primary); margin-bottom: 0.5rem; font-size: 1.1rem;">Expressão Booleana Minimizada</h3>
           <div id="kmap-result-expr" style="font-family: var(--font-code); font-size: 1.6rem; font-weight: bold; color: var(--accent-green); margin: 0.5rem 0;">
@@ -76,21 +78,22 @@ const KMapLab = {
     this.renderGrid();
   },
 
-  getMintermLiteral(numVars, rowBin, colBin) {
+  getMintermLiteral(numVars, rIdx, cIdx) {
     if (numVars === 2) {
-      const a = rowBin === '1' ? 'A' : 'Ā';
-      const b = colBin === '1' ? 'B' : 'B̄';
+      const a = rIdx === 1 ? 'A' : 'Ā';
+      const b = cIdx === 1 ? 'B' : 'B̄';
       return `${a}${b}`;
     } else if (numVars === 3) {
-      const a = rowBin === '1' ? 'A' : 'Ā';
-      const b = colBin[0] === '1' ? 'B' : 'B̄';
-      const c = colBin[1] === '1' ? 'C' : 'C̄';
+      const a = rIdx === 1 ? 'A' : 'Ā';
+      const b = (cIdx === 2 || cIdx === 3) ? 'B' : 'B̄';
+      const c = (cIdx === 1 || cIdx === 2) ? 'C' : 'C̄';
       return `${a}${b}${c}`;
     } else {
-      const a = rowBin[0] === '1' ? 'A' : 'Ā';
-      const b = rowBin[1] === '1' ? 'B' : 'B̄';
-      const c = colBin[0] === '1' ? 'C' : 'C̄';
-      const d = colBin[1] === '1' ? 'D' : 'D̄';
+      // 4 Variáveis: A (linhas 2,3), B (colunas 2,3), C (linhas 1,2), D (colunas 1,2)
+      const a = (rIdx === 2 || rIdx === 3) ? 'A' : 'Ā';
+      const b = (cIdx === 2 || cIdx === 3) ? 'B' : 'B̄';
+      const c = (rIdx === 1 || rIdx === 2) ? 'C' : 'C̄';
+      const d = (cIdx === 1 || cIdx === 2) ? 'D' : 'D̄';
       return `${a}${b}${c}${d}`;
     }
   },
@@ -105,24 +108,22 @@ const KMapLab = {
     if (this.numVars === 4) {
       html += `
         <div class="kmap-board-academic kmap-board-4x4">
-          <!-- Linha Superior de Colchetes (B e C) -->
-          <div class="kmap-row-top-brackets">
-            <div class="cell-empty"></div>
-            <div class="bracket-dash-top">—</div>
-            <div class="bracket-label-top bracket-b-top">B</div>
-            <div class="bracket-dash-top">—</div>
+          <!-- TOPO: B (Duas colunas da esquerda = —, duas da direita = B) -->
+          <div class="kmap-top-row">
+            <div class="kmap-corner-spacer"></div>
+            <div class="kmap-bracket-top bracket-dash">—</div>
+            <div class="kmap-bracket-top bracket-var">B</div>
+            <div class="kmap-corner-spacer"></div>
           </div>
 
-          <div class="kmap-middle-wrapper">
-            <!-- Coluna Esquerda de Colchetes (A e B) -->
-            <div class="kmap-col-left-brackets">
-              <div class="bracket-dash-left">—</div>
-              <div class="bracket-label-left bracket-b-left">B</div>
-              <div class="bracket-label-left bracket-a-left">A</div>
-              <div class="bracket-dash-left">—</div>
+          <div class="kmap-center-row">
+            <!-- ESQUERDA: A (Duas linhas de cima = —, duas de baixo = A) -->
+            <div class="kmap-left-col-outer">
+              <div class="kmap-bracket-left bracket-dash">—</div>
+              <div class="kmap-bracket-left bracket-var">A</div>
             </div>
 
-            <!-- Matriz Principal 4x4 -->
+            <!-- GRADE 4x4 -->
             <div class="kmap-matrix-grid grid-4x4">
       `;
 
@@ -131,7 +132,7 @@ const KMapLab = {
           const key = `${rIdx}_${cIdx}`;
           if (this.cellValues[key] === undefined) this.cellValues[key] = 0;
           const val = this.cellValues[key];
-          const literal = this.getMintermLiteral(4, rLabel, cLabel);
+          const literal = this.getMintermLiteral(4, rIdx, cIdx);
 
           html += `
             <div class="kmap-academic-cell ${val === 1 ? 'active-cell' : ''}" data-key="${key}">
@@ -146,37 +147,37 @@ const KMapLab = {
       html += `
             </div>
 
-            <!-- Coluna Direita de Colchetes (C) -->
-            <div class="kmap-col-right-brackets">
-              <div class="bracket-dash-right">—</div>
-              <div class="bracket-label-right bracket-c-right">C</div>
-              <div class="bracket-dash-right">—</div>
+            <!-- DIREITA: C (Linha topo/fundo = —, duas centrais = C) -->
+            <div class="kmap-right-col-outer">
+              <div class="kmap-bracket-right bracket-dash">—</div>
+              <div class="kmap-bracket-right bracket-var">C</div>
+              <div class="kmap-bracket-right bracket-dash">—</div>
             </div>
           </div>
 
-          <!-- Linha Inferior de Colchetes (D) -->
-          <div class="kmap-row-bottom-brackets">
-            <div class="cell-empty"></div>
-            <div class="bracket-dash-bottom">—</div>
-            <div class="bracket-label-bottom bracket-d-bottom">D</div>
-            <div class="bracket-dash-bottom">—</div>
+          <!-- FUNDO: D (Coluna ponta esquerda/direita = —, duas centrais = D) -->
+          <div class="kmap-bottom-row">
+            <div class="kmap-corner-spacer"></div>
+            <div class="kmap-bracket-bottom bracket-dash">—</div>
+            <div class="kmap-bracket-bottom bracket-var">D</div>
+            <div class="kmap-bracket-bottom bracket-dash">—</div>
+            <div class="kmap-corner-spacer"></div>
           </div>
         </div>
       `;
     } else if (this.numVars === 3) {
       html += `
         <div class="kmap-board-academic kmap-board-2x4">
-          <div class="kmap-row-top-brackets">
-            <div class="cell-empty"></div>
-            <div class="bracket-dash-top">—</div>
-            <div class="bracket-label-top bracket-b-top">B</div>
-            <div class="bracket-dash-top">—</div>
+          <div class="kmap-top-row">
+            <div class="kmap-corner-spacer-small"></div>
+            <div class="kmap-bracket-top bracket-dash">—</div>
+            <div class="kmap-bracket-top bracket-var">B</div>
           </div>
 
-          <div class="kmap-middle-wrapper">
-            <div class="kmap-col-left-brackets">
-              <div class="bracket-dash-left">—</div>
-              <div class="bracket-label-left bracket-a-left">A</div>
+          <div class="kmap-center-row">
+            <div class="kmap-left-col-outer">
+              <div class="kmap-bracket-left bracket-dash">—</div>
+              <div class="kmap-bracket-left bracket-var">A</div>
             </div>
 
             <div class="kmap-matrix-grid grid-2x4">
@@ -187,7 +188,7 @@ const KMapLab = {
           const key = `${rIdx}_${cIdx}`;
           if (this.cellValues[key] === undefined) this.cellValues[key] = 0;
           const val = this.cellValues[key];
-          const literal = this.getMintermLiteral(3, rLabel, cLabel);
+          const literal = this.getMintermLiteral(3, rIdx, cIdx);
 
           html += `
             <div class="kmap-academic-cell ${val === 1 ? 'active-cell' : ''}" data-key="${key}">
@@ -201,33 +202,29 @@ const KMapLab = {
 
       html += `
             </div>
-
-            <div class="kmap-col-right-brackets">
-              <div class="bracket-label-right bracket-c-right">C</div>
-            </div>
           </div>
 
-          <div class="kmap-row-bottom-brackets">
-            <div class="cell-empty"></div>
-            <div class="bracket-dash-bottom">—</div>
-            <div class="bracket-label-bottom bracket-d-bottom">C</div>
-            <div class="bracket-dash-bottom">—</div>
+          <div class="kmap-bottom-row">
+            <div class="kmap-corner-spacer-small"></div>
+            <div class="kmap-bracket-bottom bracket-dash">—</div>
+            <div class="kmap-bracket-bottom bracket-var">C</div>
+            <div class="kmap-bracket-bottom bracket-dash">—</div>
           </div>
         </div>
       `;
     } else {
       html += `
         <div class="kmap-board-academic kmap-board-2x2">
-          <div class="kmap-row-top-brackets">
-            <div class="cell-empty"></div>
-            <div class="bracket-dash-top">—</div>
-            <div class="bracket-label-top bracket-b-top">B</div>
+          <div class="kmap-top-row">
+            <div class="kmap-corner-spacer-small"></div>
+            <div class="kmap-bracket-top-2var bracket-dash">—</div>
+            <div class="kmap-bracket-top-2var bracket-var">B</div>
           </div>
 
-          <div class="kmap-middle-wrapper">
-            <div class="kmap-col-left-brackets">
-              <div class="bracket-dash-left">—</div>
-              <div class="bracket-label-left bracket-a-left">A</div>
+          <div class="kmap-center-row">
+            <div class="kmap-left-col-outer">
+              <div class="kmap-bracket-left bracket-dash">—</div>
+              <div class="kmap-bracket-left bracket-var">A</div>
             </div>
 
             <div class="kmap-matrix-grid grid-2x2">
@@ -238,7 +235,7 @@ const KMapLab = {
           const key = `${rIdx}_${cIdx}`;
           if (this.cellValues[key] === undefined) this.cellValues[key] = 0;
           const val = this.cellValues[key];
-          const literal = this.getMintermLiteral(2, rLabel, cLabel);
+          const literal = this.getMintermLiteral(2, rIdx, cIdx);
 
           html += `
             <div class="kmap-academic-cell ${val === 1 ? 'active-cell' : ''}" data-key="${key}">
@@ -279,7 +276,7 @@ const KMapLab = {
     
     if (activeKeys.length === 0) {
       exprEl.innerText = "X = 0";
-      detailsEl.innerHTML = `<p>• Nenhuma célula com valor 1 foi selecionada no mapa.</p>`;
+      detailsEl.innerHTML = `<p>• Nenhuma célula ativa selecionada.</p>`;
       return;
     }
 
@@ -295,9 +292,7 @@ const KMapLab = {
 
     activeKeys.forEach(k => {
       const [rIdx, cIdx] = k.split('_').map(Number);
-      const rLabel = struct.rowLabels[rIdx];
-      const cLabel = struct.colLabels[cIdx];
-      minterms.push(this.getMintermLiteral(this.numVars, rLabel, cLabel));
+      minterms.push(this.getMintermLiteral(this.numVars, rIdx, cIdx));
     });
 
     let minimized = "";
@@ -309,8 +304,8 @@ const KMapLab = {
 
     exprEl.innerHTML = `X = <span style="color: var(--primary);">${minimized}</span>`;
     detailsEl.innerHTML = `
-      <p>• <strong>Soma dos Mintermos (Canónica):</strong> <code>${minterms.join(' + ')}</code></p>
-      <p>• <strong>Variáveis Eliminadas:</strong> As variáveis que alteram de estado ($0 \\rightarrow 1$) nos blocos adjacentes foram simplificadas.</p>
+      <p>• <strong>Soma dos Mintermos:</strong> <code>${minterms.join(' + ')}</code></p>
+      <p>• <strong>Simplificação:</strong> Cancela variáveis que variam entre 0 e 1 dentro do agrupamento.</p>
     `;
   }
 };
