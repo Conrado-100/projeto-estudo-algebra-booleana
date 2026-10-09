@@ -11,10 +11,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const li = document.createElement('li');
     li.className = `module-item ${idx === 0 ? 'active' : ''}`;
     li.innerText = mod.title;
+    li.setAttribute('tabindex', '0');
+    li.setAttribute('role', 'button');
+    li.setAttribute('aria-label', `Módulo ${idx + 1}: ${mod.title}`);
     li.addEventListener('click', () => {
       document.querySelectorAll('.module-item').forEach(m => m.classList.remove('active'));
       li.classList.add('active');
       renderModule(mod);
+    });
+    // Permite ativar com Enter e Espaço (acessibilidade por teclado)
+    li.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        li.click();
+      }
     });
     moduleListContainer.appendChild(li);
   });
@@ -31,6 +41,8 @@ document.addEventListener('DOMContentLoaded', () => {
   navModulesBtn.addEventListener('click', () => {
     navModulesBtn.classList.add('active');
     navLabsBtn.classList.remove('active');
+    navModulesBtn.setAttribute('aria-pressed', 'true');
+    navLabsBtn.setAttribute('aria-pressed', 'false');
     viewModules.classList.add('active');
     viewLabs.classList.remove('active');
   });
@@ -38,6 +50,8 @@ document.addEventListener('DOMContentLoaded', () => {
   navLabsBtn.addEventListener('click', () => {
     navLabsBtn.classList.add('active');
     navModulesBtn.classList.remove('active');
+    navLabsBtn.setAttribute('aria-pressed', 'true');
+    navModulesBtn.setAttribute('aria-pressed', 'false');
     viewLabs.classList.add('active');
     viewModules.classList.remove('active');
     loadLab('gates');
@@ -46,8 +60,12 @@ document.addEventListener('DOMContentLoaded', () => {
   // Eventos de troca de laboratório na aba direta
   document.querySelectorAll('.lab-tab-btn').forEach(tab => {
     tab.addEventListener('click', (e) => {
-      document.querySelectorAll('.lab-tab-btn').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.lab-tab-btn').forEach(t => {
+        t.classList.remove('active');
+        t.setAttribute('aria-selected', 'false');
+      });
       tab.classList.add('active');
+      tab.setAttribute('aria-selected', 'true');
       loadLab(tab.getAttribute('data-lab'));
     });
   });

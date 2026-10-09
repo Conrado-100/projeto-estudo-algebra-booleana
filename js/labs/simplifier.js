@@ -20,6 +20,9 @@ const SimplifierLab = {
   currentStep: 0,
 
   render(container) {
+    // Reinicia o passo toda vez que o lab é carregado, evitando estado residual
+    // de uma visita anterior ao mesmo módulo.
+    this.currentStep = 0;
     const ex = this.examples[0];
     container.innerHTML = `
       <div class="card-box">

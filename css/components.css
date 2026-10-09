@@ -128,3 +128,34 @@ input:checked + .slider:before {
 .btn-action:hover {
   background-color: var(--primary-hover);
 }
+
+/* ── Acessibilidade: foco visível ──────────────────────────────────────────── */
+/* Foco para todos os controles interativos */
+.btn-action:focus-visible,
+.nav-btn:focus-visible,
+.lab-tab-btn:focus-visible,
+select:focus-visible,
+input[type="text"]:focus-visible,
+input[type="checkbox"]:focus-visible {
+  outline: 3px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* Foco para itens da lista de módulos */
+.module-item:focus-visible {
+  outline: 3px solid var(--primary);
+  outline-offset: 2px;
+  border-color: var(--primary);
+}
+
+/* Foco para células do KMap */
+.kmap-cell[data-key]:focus-visible {
+  outline: 3px solid var(--primary);
+  outline-offset: -2px;
+}
+
+/* Garantia de foco visível para qualquer elemento focável não coberto acima */
+:focus-visible {
+  outline: 3px solid var(--primary);
+  outline-offset: 2px;
+}

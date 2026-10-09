@@ -4,21 +4,37 @@
 const LogicEngine = {
   // Avalia uma expressão booleana dadas as variáveis em um objeto (ex: {A: 1, B: 0})
   evaluate(expression, inputs) {
+    // PASSO 1: substitui keywords de palavras inteiras com \b ANTES de remover espaços.
+    // - XNOR é protegido antes de XOR e OR para evitar captura errada.
+    // - XOR é convertido para ^ (XOR bitwise de inteiros 0/1), o que funciona
+    //   corretamente em encadeamentos (A XOR B XOR C) porque ^ retorna número,
+    //   não boolean — evitando o problema de boolean !== number do operador !==.
+    // - XNOR = NOT XOR = !(A^B), representado como (~(A^B)&1) para manter 0/1.
+    //   Usamos a identidade: A XNOR B = 1-(A^B) para operandos binários.
     let sanitized = expression
-      .replace(/\s+/g, '')
-      .replace(/AND|\./g, '&&')
-      .replace(/OR|\+/g, '||')
-      .replace(/XOR|\^/g, '!==')
-      .replace(/NOT|!/g, '!');
+      .replace(/\bXNOR\b/g, '_XNOR_') // protege XNOR antes de XOR e OR
+      .replace(/\bXOR\b/g,  '^')       // XOR → ^ (bitwise, correto para 0/1)
+      .replace(/\bAND\b/g,  '&&')
+      .replace(/\bOR\b/g,   '||')
+      .replace(/\bNOT\b/g,  '!')
+      .replace(/\s+/g,      '')        // remove espaços depois das keywords
+      .replace(/_XNOR_/g,   '===')    // XNOR → === (após espaços removidos)
+      .replace(/\./g,        '&&')    // ponto → AND
+      .replace(/\+/g,        '||')    // mais → OR
+      .replace(/\^(?!=)/g,   '^');    // mantém ^ (XOR bitwise) sem alterar ^=
 
-    // Substitui variáveis negadas no formato A', ~A ou \bar{A}
+    // PASSO 2: substitui variáveis negadas (A', ~A) ANTES de converter ~ em !
+    // para que ~(expr) não perca o ~ antes de parêntese.
     Object.keys(inputs).forEach(varName => {
       const val = inputs[varName] ? 1 : 0;
       const regexNot = new RegExp(`~${varName}|${varName}'`, 'g');
       sanitized = sanitized.replace(regexNot, val ? '0' : '1');
     });
 
-    // Substitui variáveis normais
+    // PASSO 3: converte ~ restante (ex: ~(A.B), ~~A) em operador JS !
+    sanitized = sanitized.replace(/~/g, '!');
+
+    // PASSO 4: substitui variáveis normais
     Object.keys(inputs).forEach(varName => {
       const val = inputs[varName] ? 1 : 0;
       const regexVar = new RegExp(`\\b${varName}\\b`, 'g');

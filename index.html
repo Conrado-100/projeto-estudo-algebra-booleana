@@ -16,9 +16,9 @@
       <span class="logo-icon">⚡</span>
       <h1>BooleLab <span class="badge-beta">Educacional</span></h1>
     </div>
-    <nav class="top-nav">
-      <button id="nav-modules-btn" class="nav-btn active">Trilha de Módulos</button>
-      <button id="nav-labs-btn" class="nav-btn">Laboratórios Diretos</button>
+    <nav class="top-nav" role="navigation" aria-label="Navegação principal">
+      <button id="nav-modules-btn" class="nav-btn active" aria-pressed="true" aria-label="Ver trilha de módulos">Trilha de Módulos</button>
+      <button id="nav-labs-btn" class="nav-btn" aria-pressed="false" aria-label="Ver laboratórios diretos">Laboratórios Diretos</button>
     </nav>
     <div class="progress-bar-header">
       <span id="progress-text">Progresso: 0%</span>
@@ -45,17 +45,17 @@
 
     <!-- VISÃO 2: LABORATÓRIOS DIRETOS -->
     <section id="view-labs" class="view-section">
-      <nav class="lab-tabs">
-        <button class="lab-tab-btn active" data-lab="gates">Portas Lógicas</button>
-        <button class="lab-tab-btn" data-lab="truth">Tabela-Verdade</button>
-        <button class="lab-tab-btn" data-lab="simplifier">Simplificador</button>
-        <button class="lab-tab-btn" data-lab="kmap">Mapa de Karnaugh</button>
-        <button class="lab-tab-btn" data-lab="circuit">Visualizador de Circuitos</button>
-        <button class="lab-tab-btn" data-lab="reservoir">Reservatório de Água</button>
-        <button class="lab-tab-btn" data-lab="priority">Prioridade de Máquinas</button>
+      <nav class="lab-tabs" role="tablist" aria-label="Seleção de laboratório">
+        <button class="lab-tab-btn active" data-lab="gates" role="tab" aria-selected="true" aria-controls="lab-container">Portas Lógicas</button>
+        <button class="lab-tab-btn" data-lab="truth" role="tab" aria-selected="false" aria-controls="lab-container">Tabela-Verdade</button>
+        <button class="lab-tab-btn" data-lab="simplifier" role="tab" aria-selected="false" aria-controls="lab-container">Simplificador</button>
+        <button class="lab-tab-btn" data-lab="kmap" role="tab" aria-selected="false" aria-controls="lab-container">Mapa de Karnaugh</button>
+        <button class="lab-tab-btn" data-lab="circuit" role="tab" aria-selected="false" aria-controls="lab-container">Visualizador de Circuitos</button>
+        <button class="lab-tab-btn" data-lab="reservoir" role="tab" aria-selected="false" aria-controls="lab-container">Reservatório de Água</button>
+        <button class="lab-tab-btn" data-lab="priority" role="tab" aria-selected="false" aria-controls="lab-container">Prioridade de Máquinas</button>
       </nav>
 
-      <div id="lab-container" class="lab-content-area">
+      <div id="lab-container" class="lab-content-area" role="region" aria-label="Área do laboratório ativo">
         <!-- Renderização dinâmica do laboratório selecionado -->
       </div>
     </section>

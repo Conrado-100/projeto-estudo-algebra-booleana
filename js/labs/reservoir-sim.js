@@ -34,14 +34,14 @@ const ReservoirSimLab = {
           <!-- Reservatório Térreo -->
           <div class="water-tank">
             <div id="tank-ground-water" class="water-level" style="height: 40%;"></div>
-            <div class="sensor-dot ${this.sensorA ? 'active' : ''}" style="bottom: 10px;" title="Sensor A"></div>
-            <div class="sensor-dot ${this.sensorB ? 'active' : ''}" style="top: 10px;" title="Sensor B"></div>
+            <div class="sensor-dot sensor-a-dot ${this.sensorA ? 'active' : ''}" style="bottom: 10px;" title="Sensor A (Fundo Térreo)"></div>
+            <div class="sensor-dot sensor-b-dot ${this.sensorB ? 'active' : ''}" style="top: 10px;" title="Sensor B (Topo Térreo)"></div>
           </div>
 
           <!-- Reservatório Elevado -->
           <div class="water-tank">
             <div id="tank-elevated-water" class="water-level" style="height: 20%;"></div>
-            <div class="sensor-dot ${this.sensorC ? 'active' : ''}" style="top: 10px;" title="Sensor C"></div>
+            <div class="sensor-dot sensor-c-dot ${this.sensorC ? 'active' : ''}" style="top: 10px;" title="Sensor C (Topo Elevado)"></div>
           </div>
         </div>
 
@@ -84,6 +84,17 @@ const ReservoirSimLab = {
 
     document.getElementById('led-valve').className = `led-light ${valveX ? 'on' : 'off'}`;
     document.getElementById('led-pump').className = `led-light ${pumpY ? 'on' : 'off'}`;
+
+    // Atualiza os indicadores visuais dos sensores nos reservatórios
+    document.querySelectorAll('.sensor-a-dot').forEach(el => {
+      el.className = `sensor-dot sensor-a-dot ${this.sensorA ? 'active' : ''}`;
+    });
+    document.querySelectorAll('.sensor-b-dot').forEach(el => {
+      el.className = `sensor-dot sensor-b-dot ${this.sensorB ? 'active' : ''}`;
+    });
+    document.querySelectorAll('.sensor-c-dot').forEach(el => {
+      el.className = `sensor-dot sensor-c-dot ${this.sensorC ? 'active' : ''}`;
+    });
 
     // Atualização visual da água
     document.getElementById('tank-ground-water').style.height = this.sensorB ? '90%' : (this.sensorA ? '40%' : '5%');
