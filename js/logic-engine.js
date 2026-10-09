@@ -61,3 +61,29 @@ const LogicEngine = {
     return table1.every((row, idx) => row.output === table2[idx].output);
   }
 };
+// Adicionar ao final do ficheiro js/logic-engine.js:
+
+/**
+ * Autoteste de Validação Matemática e Integridade Lógica
+ */
+LogicEngine.runSelfTest = function() {
+  console.log("⚡ Executando bateria de autotestes lógicos...");
+  
+  // Teste 1: Validação de Tabela-Verdade AND
+  const andValid = this.evaluate("A . B", {A: 1, B: 1}) === 1 && this.evaluate("A . B", {A: 1, B: 0}) === 0;
+  
+  // Teste 2: Validação da 1ª Lei de De Morgan ~(A . B) == ~A + ~B
+  const deMorganValid = this.areEquivalent("~(A . B)", "~A + ~B", ['A', 'B']);
+
+  // Teste 3: Validação da Absorção A + A.B == A
+  const absorptionValid = this.areEquivalent("A + A . B", "A", ['A', 'B']);
+
+  if (andValid && deMorganValid && absorptionValid) {
+    console.log("✅ Todos os testes matemáticos foram concluídos com 100% de exatidão!");
+  } else {
+    console.error("❌ Falha na validação dos testes lógicos!");
+  }
+};
+
+// Executar verificação na inicialização
+LogicEngine.runSelfTest();
