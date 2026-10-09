@@ -1,0 +1,130 @@
+/* Cartões, botões e controles interativos */
+.card-box {
+  background-color: var(--bg-dark);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 1.25rem;
+}
+
+.card-title {
+  color: var(--primary);
+  font-size: 1.1rem;
+  margin-bottom: 0.75rem;
+}
+
+/* Switches para entradas lógicas */
+.switch-container {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0.5rem;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 26px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: #475569;
+  transition: .3s;
+  border-radius: 26px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: .3s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: var(--accent-green);
+}
+
+input:checked + .slider:before {
+  transform: translateX(24px);
+}
+
+/* Indicador LED de saída */
+.led-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+}
+
+.led-light {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #334155;
+  box-shadow: inset 0 0 4px rgba(0,0,0,0.8);
+  transition: all 0.3s ease;
+}
+
+.led-light.on {
+  background-color: var(--accent-green);
+  box-shadow: 0 0 12px var(--accent-green);
+}
+
+.led-light.off {
+  background-color: var(--accent-red);
+  box-shadow: 0 0 6px var(--accent-red);
+}
+
+/* Tabelas estilizadas */
+.truth-table-styled {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  font-family: var(--font-code);
+  font-size: 0.9rem;
+}
+
+.truth-table-styled th, .truth-table-styled td {
+  border: 1px solid var(--border-color);
+  padding: 0.6rem;
+  text-align: center;
+}
+
+.truth-table-styled th {
+  background-color: var(--bg-dark);
+  color: var(--primary);
+}
+
+.truth-table-styled tr.highlight-row {
+  background-color: rgba(56, 189, 248, 0.2);
+  font-weight: bold;
+}
+
+.btn-action {
+  background-color: var(--primary);
+  color: #0f172a;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-action:hover {
+  background-color: var(--primary-hover);
+}

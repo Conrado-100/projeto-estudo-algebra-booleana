@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Laboratório Interativo de Álgebra de Boole e Circuitos Lógicos</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/lab.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="app-header">
+    <div class="logo-container">
+      <span class="logo-icon">⚡</span>
+      <h1>BooleLab <span class="badge-beta">Educacional</span></h1>
+    </div>
+    <nav class="top-nav">
+      <button id="nav-modules-btn" class="nav-btn active">Trilha de Módulos</button>
+      <button id="nav-labs-btn" class="nav-btn">Laboratórios Diretos</button>
+    </nav>
+    <div class="progress-bar-header">
+      <span id="progress-text">Progresso: 0%</span>
+      <div class="progress-track">
+        <div id="progress-fill" class="progress-fill" style="width: 0%;"></div>
+      </div>
+    </div>
+  </header>
+
+  <main class="app-container">
+    <!-- VISÃO 1: TRILHA DE MÓDULOS -->
+    <section id="view-modules" class="view-section active">
+      <aside class="sidebar-modules">
+        <h2>Trilha de Aprendizagem</h2>
+        <ul id="module-list" class="module-list">
+          <!-- Gerado dinamicamente pelo JS -->
+        </ul>
+      </aside>
+
+      <article class="content-module" id="module-display">
+        <!-- Conteúdo do Módulo Ativo carregado dinamicamente -->
+      </article>
+    </section>
+
+    <!-- VISÃO 2: LABORATÓRIOS DIRETOS -->
+    <section id="view-labs" class="view-section">
+      <nav class="lab-tabs">
+        <button class="lab-tab-btn active" data-lab="gates">Portas Lógicas</button>
+        <button class="lab-tab-btn" data-lab="truth">Tabela-Verdade</button>
+        <button class="lab-tab-btn" data-lab="simplifier">Simplificador</button>
+        <button class="lab-tab-btn" data-lab="kmap">Mapa de Karnaugh</button>
+        <button class="lab-tab-btn" data-lab="circuit">Visualizador de Circuitos</button>
+        <button class="lab-tab-btn" data-lab="reservoir">Reservatório de Água</button>
+        <button class="lab-tab-btn" data-lab="priority">Prioridade de Máquinas</button>
+      </nav>
+
+      <div id="lab-container" class="lab-content-area">
+        <!-- Renderização dinâmica do laboratório selecionado -->
+      </div>
+    </section>
+  </main>
+
+  <footer class="app-footer">
+    <p>Laboratório Interativo de Álgebra de Boole e Circuitos Lógicos | Recursos 100% estáticos executados no seu navegador.</p>
+  </footer>
+
+  <!-- Scripts do Motor Lógico e Dados -->
+  <script src="js/logic-engine.js"></script>
+  <script src="js/kmap-engine.js"></script>
+  <script src="js/progress.js"></script>
+  <script src="js/course-data.js"></script>
+
+  <!-- Scripts de Laboratórios Específicos -->
+  <script src="js/labs/gates-lab.js"></script>
+  <script src="js/labs/truth-builder.js"></script>
+  <script src="js/labs/simplifier.js"></script>
+  <script src="js/labs/kmap-lab.js"></script>
+  <script src="js/labs/circuit-builder.js"></script>
+  <script src="js/labs/reservoir-sim.js"></script>
+  <script src="js/labs/priority-sim.js"></script>
+
+  <!-- Script Principal da Aplicação -->
+  <script src="js/app.js"></script>
+</body>
+</html>
