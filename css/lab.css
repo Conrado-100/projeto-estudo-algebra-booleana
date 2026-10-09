@@ -153,3 +153,201 @@
     min-width: 0 !important;
   }
 }
+/* Estilos aprimorados do Mapa de Karnaugh com Indicadores de Região */
+.kmap-legend-box {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+  flex-wrap: wrap;
+  background-color: var(--bg-dark);
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  font-size: 0.85rem;
+  margin-bottom: 1.25rem;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-muted);
+}
+
+.legend-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 4px;
+  font-weight: bold;
+  font-family: var(--font-code);
+}
+
+.badge-active {
+  background-color: var(--accent-green);
+  color: #0f172a;
+}
+
+.badge-zero {
+  background-color: #334155;
+  color: #fff;
+}
+
+.kmap-wrapper {
+  overflow-x: auto;
+  padding: 0.5rem 0;
+}
+
+.kmap-visual-layout {
+  display: inline-flex;
+  flex-direction: column;
+  background: var(--bg-dark);
+  padding: 1rem;
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+.kmap-top-bar, .kmap-sub-top-bar {
+  display: flex;
+  align-items: center;
+  height: 32px;
+}
+
+.kmap-corner-label {
+  width: 110px;
+  font-family: var(--font-code);
+  font-size: 0.85rem;
+  font-weight: bold;
+  color: var(--primary);
+  text-align: center;
+}
+
+.kmap-corner-empty {
+  width: 110px;
+}
+
+.kmap-col-bracket {
+  width: 75px;
+  text-align: center;
+  font-family: var(--font-code);
+  font-size: 0.8rem;
+  font-weight: bold;
+  padding: 3px 0;
+  border-bottom: 2px solid var(--border-color);
+}
+
+.bracket-a, .bracket-b, .bracket-c, .bracket-d {
+  background-color: rgba(56, 189, 248, 0.15);
+  color: var(--primary);
+  border-bottom-color: var(--primary);
+}
+
+.bracket-abar, .bracket-bbar, .bracket-cbar, .bracket-dbar {
+  background-color: rgba(148, 163, 184, 0.08);
+  color: var(--text-muted);
+  border-bottom-color: #475569;
+}
+
+.kmap-body-row {
+  display: flex;
+}
+
+.kmap-left-bar, .kmap-sub-left-bar {
+  display: flex;
+  flex-direction: column;
+  width: 55px;
+}
+
+.kmap-row-bracket {
+  height: 75px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-code);
+  font-size: 0.8rem;
+  font-weight: bold;
+  border-right: 2px solid var(--border-color);
+}
+
+.kmap-left-bar .bracket-a, .kmap-left-bar .bracket-abar {
+  border-right-width: 3px;
+}
+
+.kmap-grid-matrix {
+  display: grid;
+  gap: 4px;
+  background-color: var(--border-color);
+  padding: 4px;
+  border-radius: 6px;
+}
+
+.matrix-4x4 {
+  grid-template-columns: repeat(4, 75px);
+}
+
+.matrix-2x4 {
+  grid-template-columns: repeat(4, 75px);
+}
+
+.matrix-2x2 {
+  grid-template-columns: repeat(2, 75px);
+}
+
+.kmap-cell-enhanced {
+  background-color: #1e293b;
+  height: 75px;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+}
+
+.kmap-cell-enhanced:hover {
+  background-color: var(--bg-hover);
+  border-color: var(--primary);
+  transform: scale(1.02);
+}
+
+.kmap-cell-coords {
+  font-size: 0.65rem;
+  font-family: var(--font-code);
+  color: var(--text-muted);
+}
+
+.kmap-cell-value {
+  font-size: 1.5rem;
+  font-weight: bold;
+  font-family: var(--font-code);
+  color: var(--text-muted);
+}
+
+.kmap-cell-literal {
+  font-size: 0.7rem;
+  font-family: var(--font-code);
+  color: #64748b;
+}
+
+.kmap-cell-enhanced.active-cell {
+  background-color: rgba(34, 197, 94, 0.15);
+  border-color: var(--accent-green);
+  box-shadow: 0 0 10px rgba(34, 197, 94, 0.2);
+}
+
+.kmap-cell-enhanced.active-cell .kmap-cell-value {
+  color: var(--accent-green);
+  text-shadow: 0 0 8px rgba(34, 197, 94, 0.5);
+}
+
+.kmap-cell-enhanced.active-cell .kmap-cell-literal {
+  color: #86efac;
+  font-weight: bold;
+}
