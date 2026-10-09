@@ -40,7 +40,7 @@ const SimplifierLab = {
 
         <!-- Exemplo Interativo Passo a Passo -->
         <div style="background: var(--bg-dark); padding: 1.25rem; border-radius: 8px; border: 1px solid var(--border-color);">
-          <h3 style="color: var(--primary); margin-bottom: 0.5rem;">Exemplo Prático: Simplificando $A \\cdot B + A \\cdot \\bar{B}$</h3>
+        <h3 style="color: var(--primary); margin-bottom: 0.5rem;">Exemplo Prático: Simplificando $A \cdot B + A \cdot \bar{B}$</h3>
           
           <div id="simplifier-steps-container" style="margin: 1rem 0;"></div>
 
