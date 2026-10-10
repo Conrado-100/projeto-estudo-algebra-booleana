@@ -50,8 +50,30 @@ const LogicEngine = {
     }
   },
 
-  // Gera todas as combinações de uma tabela-verdade para N variáveis
-  generateTruthTable(variables, evalFn) {
+  // Extrai as variáveis únicas de uma expressão booleana (letras maiúsculas A-Z)
+  extractVariables(expression) {
+    const matches = expression.match(/\b[A-Z]\b/g);
+    if (!matches) return [];
+    // Remove duplicatas e ordena alfabeticamente
+    return [...new Set(matches)].sort();
+  },
+
+  // Alias para manter compatibilidade com chamadores que usam evaluateExpr
+  evaluateExpr(expression, inputs) {
+    return this.evaluate(expression, inputs);
+  },
+
+  // Verifica se duas expressões são matematicamente equivalentes
+  areEquivalent(expr1, expr2, variables) {
+    const table1 = this._generateTruthTableRaw(variables, (inputs) => this.evaluate(expr1, inputs));
+    const table2 = this._generateTruthTableRaw(variables, (inputs) => this.evaluate(expr2, inputs));
+
+    return table1.every((row, idx) => row.output === table2[idx].output);
+  },
+
+  // Geração interna de tabela-verdade (assinatura original: array + callback)
+  // Usada por areEquivalent para não quebrar a lógica existente.
+  _generateTruthTableRaw(variables, evalFn) {
     const numVars = variables.length;
     const rowsCount = Math.pow(2, numVars);
     const table = [];
@@ -59,7 +81,6 @@ const LogicEngine = {
     for (let i = 0; i < rowsCount; i++) {
       const inputs = {};
       for (let j = 0; j < numVars; j++) {
-        // Deslocamento de bits para gerar 0 e 1 ordenados
         const bit = (i >> (numVars - 1 - j)) & 1;
         inputs[variables[j]] = bit;
       }
@@ -69,12 +90,33 @@ const LogicEngine = {
     return table;
   },
 
-  // Verifica se duas expressões são matematicamente equivalentes
-  areEquivalent(expr1, expr2, variables) {
-    const table1 = this.generateTruthTable(variables, (inputs) => this.evaluate(expr1, inputs));
-    const table2 = this.generateTruthTable(variables, (inputs) => this.evaluate(expr2, inputs));
+  // Gera tabela-verdade aceitando:
+  //   - (expressionString)            → retorna [{inputs, result}] (usado por truth-builder.js)
+  //   - (variables[], evalFn)         → retorna [{inputs, output}] (assinatura legada)
+  generateTruthTable(variablesOrExpr, evalFn) {
+    // Chamada com string: nova interface usada pelo truth-builder.js
+    if (typeof variablesOrExpr === 'string') {
+      const expression = variablesOrExpr;
+      const variables = this.extractVariables(expression);
+      const numVars = variables.length;
+      const rowsCount = Math.pow(2, numVars);
+      const table = [];
 
-    return table1.every((row, idx) => row.output === table2[idx].output);
+      for (let i = 0; i < rowsCount; i++) {
+        const inputs = {};
+        for (let j = 0; j < numVars; j++) {
+          const bit = (i >> (numVars - 1 - j)) & 1;
+          inputs[variables[j]] = bit;
+        }
+        const result = this.evaluate(expression, inputs);
+        table.push({ inputs, result });
+      }
+      return table;
+    }
+
+    // Chamada legada com array + callback (mantém compatibilidade com areEquivalent
+    // e qualquer outro código que use a assinatura original)
+    return this._generateTruthTableRaw(variablesOrExpr, evalFn);
   }
 };
 // Adicionar ao final do ficheiro js/logic-engine.js:
