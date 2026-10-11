@@ -189,12 +189,14 @@ const KMapLab = {
           if (this.cellValues[key] === undefined) this.cellValues[key] = 0;
           const val = this.cellValues[key];
           const literal = this.getMintermLiteral(3, rIdx, cIdx);
+          const minterm = KMapEngine.getMintermIndex(3, rIdx, cIdx);
 
           html += `
-            <div class="kmap-academic-cell ${val === 1 ? 'active-cell' : ''}" data-key="${key}">
-              <span class="cell-bin">${rLabel} ${cLabel}</span>
+            <div class="kmap-academic-cell ${val === 1 ? 'active-cell' : ''}" data-key="${key}"
+                 aria-label="Mintermo m${minterm}: linha A=${rLabel}, coluna BC=${cLabel}, saída ${val}">
+              <span class="cell-bin">A=${rLabel} · BC=${cLabel}</span>
               <span class="cell-num">${val}</span>
-              <span class="cell-lit">${literal}</span>
+              <span class="cell-lit"><span>m${minterm}</span><span>${literal}</span></span>
             </div>
           `;
         });
@@ -211,6 +213,11 @@ const KMapLab = {
             <div class="kmap-bracket-bottom bracket-dash">—</div>
           </div>
         </div>
+      `;
+      html += `
+        <p class="kmap-dimension-note">
+          Colunas BC em ordem Gray: 00 → 01 → 11 → 10. Agrupe células adjacentes; as bordas opostas também são adjacentes.
+        </p>
       `;
     } else {
       html += `
@@ -236,12 +243,14 @@ const KMapLab = {
           if (this.cellValues[key] === undefined) this.cellValues[key] = 0;
           const val = this.cellValues[key];
           const literal = this.getMintermLiteral(2, rIdx, cIdx);
+          const minterm = KMapEngine.getMintermIndex(2, rIdx, cIdx);
 
           html += `
-            <div class="kmap-academic-cell ${val === 1 ? 'active-cell' : ''}" data-key="${key}">
-              <span class="cell-bin">${rLabel} ${cLabel}</span>
+            <div class="kmap-academic-cell ${val === 1 ? 'active-cell' : ''}" data-key="${key}"
+                 aria-label="Mintermo m${minterm}: linha A=${rLabel}, coluna B=${cLabel}, saída ${val}">
+              <span class="cell-bin">A=${rLabel} · B=${cLabel}</span>
               <span class="cell-num">${val}</span>
-              <span class="cell-lit">${literal}</span>
+              <span class="cell-lit"><span>m${minterm}</span><span>${literal}</span></span>
             </div>
           `;
         });
@@ -251,6 +260,11 @@ const KMapLab = {
             </div>
           </div>
         </div>
+      `;
+      html += `
+        <p class="kmap-dimension-note">
+          Linhas: A=0/1 · Colunas: B=0/1. Cada célula mostra a saída, o mintermo e seu literal.
+        </p>
       `;
     }
 
