@@ -203,7 +203,145 @@ body {
 }
 
 @media (max-width: 900px) {
+  .app-header {
+    gap: 0.75rem;
+  }
+
+  .logo-container,
+  .top-nav,
+  .progress-bar-header {
+    min-width: 0;
+  }
+
+  .top-nav {
+    flex-wrap: wrap;
+  }
+
+  .app-container {
+    min-width: 0;
+  }
+
   #view-modules.active {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .sidebar-modules,
+  .content-module {
+    min-width: 0;
+  }
+
+  .module-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+  }
+
+  #view-labs.active {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  #view-labs .lab-tabs,
+  #lab-container {
+    width: 100%;
+    min-width: 0;
+  }
+
+  #view-questions.active {
+    display: block;
+  }
+
+  #projects-container {
+    min-width: 0;
+  }
+}
+
+@media (max-width: 600px) {
+  .app-header {
+    align-items: stretch;
+    flex-direction: column;
+    padding: 0.75rem;
+  }
+
+  .logo-container {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .logo-container h1 {
+    font-size: 1.2rem;
+  }
+
+  .top-nav {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: 100%;
+  }
+
+  .nav-btn {
+    min-width: 0;
+    min-height: 48px;
+    padding: 0.65rem 0.4rem;
+    font-size: 0.82rem;
+    line-height: 1.25;
+    white-space: normal;
+  }
+
+  #nav-questions-btn {
+    grid-column: 1 / -1;
+  }
+
+  .progress-bar-header {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+    width: 100%;
+    gap: 0.75rem;
+  }
+
+  .progress-track {
+    width: 100%;
+  }
+
+  .app-container {
+    padding: 0.9rem 0.75rem;
+  }
+
+  .view-section.active {
+    gap: 1rem;
+  }
+
+  .sidebar-modules {
+    padding: 0.9rem;
+  }
+
+  .module-list {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .module-item {
+    min-width: 0;
+    padding: 0.7rem;
+    overflow-wrap: anywhere;
+  }
+
+  .content-module {
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  .app-footer {
+    padding: 0.85rem 0.75rem;
+    overflow-wrap: anywhere;
+  }
+}
+
+@media (max-width: 380px) {
+  .app-container {
+    padding-right: 0.6rem;
+    padding-left: 0.6rem;
+  }
+
+  .content-module {
+    padding: 0.8rem;
   }
 }

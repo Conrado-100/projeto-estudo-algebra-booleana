@@ -293,3 +293,43 @@
   color: #86efac;
   font-weight: bold;
 }
+
+@media (max-width: 900px) {
+  #kmap-wrapper,
+  #module-interactive-area #kmap-wrapper {
+    justify-content: flex-start !important;
+    max-width: 100%;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+  }
+
+  #projects-container [style*="overflow-x:auto"],
+  #projects-container [style*="overflow-x: auto"] {
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
+    justify-content: flex-start !important;
+    max-width: 100%;
+    overscroll-behavior-x: contain;
+  }
+
+  .kmap-board-academic {
+    flex: 0 0 auto;
+  }
+}
+
+@media (max-width: 600px) {
+  .kmap-board-academic {
+    padding: 0.85rem;
+  }
+
+  #kmap-result-expr {
+    font-size: 1.25rem !important;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  .kmap-dimension-note {
+    text-align: left;
+  }
+}

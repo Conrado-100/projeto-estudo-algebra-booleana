@@ -206,3 +206,139 @@ button.lab-tab-btn.active,
   border-color: #38bdf8 !important;
   box-shadow: 0 0 12px rgba(56, 189, 248, 0.25) !important;
 }
+
+@media (max-width: 900px) {
+  .card-box,
+  .lab-content-area,
+  #module-display,
+  #module-interactive-area,
+  #projects-container {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  svg,
+  img,
+  canvas,
+  video {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .lab-content-area [style*="minmax(280px"],
+  #module-display [style*="minmax(280px"],
+  .lab-content-area [style*="minmax(240px"],
+  #module-display [style*="minmax(240px"] {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  #truth-table-output,
+  .lab-content-area [style*="overflow-x: auto"],
+  .lab-content-area [style*="overflow-x:auto"],
+  #module-display [style*="overflow-x: auto"],
+  #module-display [style*="overflow-x:auto"],
+  #projects-container [style*="overflow-x: auto"],
+  #projects-container [style*="overflow-x:auto"] {
+    max-width: 100%;
+    overscroll-behavior-x: contain;
+  }
+
+  .lab-content-area table,
+  #module-display table,
+  #projects-container table {
+    max-width: 100%;
+  }
+
+  .content-module :is(code, pre),
+  .lab-content-area :is(code, pre),
+  #projects-container :is(code, pre) {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
+  }
+}
+
+@media (max-width: 600px) {
+  .card-box {
+    padding: 0.9rem;
+    border-radius: 8px;
+  }
+
+  .btn-action,
+  .lab-tab-btn {
+    min-height: 44px;
+    max-width: 100%;
+    white-space: normal;
+  }
+
+  select,
+  input[type="text"] {
+    min-height: 44px;
+    max-width: 100%;
+  }
+
+  .cell-toggle {
+    min-width: 44px;
+    min-height: 44px !important;
+    height: auto !important;
+  }
+
+  summary {
+    min-height: 44px;
+  }
+
+  .lab-tabs {
+    align-items: stretch;
+    gap: 0.4rem;
+    margin-bottom: 1rem;
+  }
+
+  .lab-tabs .lab-tab-btn {
+    flex: 1 1 180px !important;
+    min-width: 0 !important;
+    padding: 0.65rem 0.55rem !important;
+    line-height: 1.25;
+    text-align: center;
+  }
+
+  .switch-container {
+    min-height: 44px;
+    max-width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .truth-table-styled {
+    font-size: 0.78rem;
+  }
+
+  .truth-table-styled th,
+  .truth-table-styled td {
+    padding: 0.4rem;
+  }
+
+  #truth-expr-input {
+    min-width: 0 !important;
+    width: 100%;
+  }
+
+  #project-cards,
+  #output-cards {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  #projects-container .proj-select-btn,
+  #projects-container .out-select-btn {
+    min-width: 0 !important;
+    width: 100%;
+  }
+
+  #projects-container .proj-select-btn {
+    padding: 0.9rem 1rem !important;
+  }
+
+  #projects-container .proj-select-btn > div:first-child {
+    font-size: 1.05rem !important;
+    overflow-wrap: anywhere;
+  }
+}
