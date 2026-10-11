@@ -397,7 +397,7 @@ const ProjectsLab = {
       const isWrong = answer !== null && (val & 1) !== answer[i];
       rows += `
         <tr data-row="${i}">
-          <td style="padding: 0.5rem 0.5rem; text-align: center; color: var(--text-muted); font-size: 0.78rem; font-family: var(--font-code);">${i + 1}</td>
+          <td style="padding: 0.5rem 0.5rem; text-align: center; color: var(--text-muted); font-size: 0.78rem; font-family: var(--font-code);">${i}</td>
           ${tdInputs}
           <td style="padding: 0.4rem 0.5rem; text-align: center;">
             <button class="cell-toggle"
@@ -414,7 +414,7 @@ const ProjectsLab = {
                       background: ${isWrong ? 'rgba(239,68,68,0.12)' : (val === 1 ? 'rgba(34,197,94,0.15)' : 'var(--bg-card)')};
                       color: ${isWrong ? 'var(--accent-red)' : (val === 1 ? 'var(--accent-green)' : 'var(--text-muted)')};
                     "
-                    aria-label="Linha ${i + 1}: valor atual ${val}. Clique para alternar."
+                    aria-label="Mintermo m${i}: valor atual ${val}. Clique para alternar."
             >${val}</button>
           </td>
           <td class="feedback-cell" data-row="${i}" style="padding: 0.4rem 0.5rem; text-align: center; font-size: 0.8rem; width: 80px;">
@@ -459,7 +459,7 @@ const ProjectsLab = {
         <table class="truth-table-styled" style="min-width: 480px;">
           <thead>
             <tr style="background: #1e293b;">
-              <th style="padding: 0.55rem 0.5rem; color: var(--text-muted); font-size: 0.78rem;">#</th>
+              <th style="padding: 0.55rem 0.5rem; color: var(--text-muted); font-size: 0.78rem;">Mintermo (m0 a m15)</th>
               ${thInputs}
               <th style="padding: 0.55rem 0.7rem; color: var(--primary); font-family: var(--font-code);">${outDef.key}</th>
               <th style="padding: 0.55rem 0.5rem; color: var(--text-muted); font-size: 0.78rem;">Status</th>
@@ -519,7 +519,7 @@ const ProjectsLab = {
         btn.style.color       = newVal === 1 ? 'var(--accent-green)'  : 'var(--text-muted)';
         btn.style.borderColor = newVal === 1 ? 'var(--accent-green)'  : 'var(--border-color)';
         btn.setAttribute('aria-label',
-          `Linha ${row + 1}: valor atual ${newVal}. Clique para alternar.`);
+          `Mintermo m${row}: valor atual ${newVal}. Clique para alternar.`);
 
         // Limpa feedback individual da linha (✓/✗) ao editar após verificação
         const fc = area.querySelector(`.feedback-cell[data-row="${row}"]`);
@@ -663,7 +663,7 @@ const ProjectsLab = {
       ).join('');
       return `
         <tr style="background: rgba(239,68,68,0.07);">
-          <td style="padding: 0.35rem 0.5rem; text-align:center; color:var(--text-muted); font-size:0.78rem; font-family:var(--font-code);">${i + 1}</td>
+          <td style="padding: 0.35rem 0.5rem; text-align:center; color:var(--text-muted); font-size:0.78rem; font-family:var(--font-code);">${i}</td>
           ${bits}
           <td style="padding:0.35rem 0.5rem; text-align:center; font-family:var(--font-code); color:var(--accent-red);">${save.table[i]}</td>
           <td style="padding:0.35rem 0.5rem; text-align:center; font-family:var(--font-code); color:var(--accent-green); font-weight:bold;">${answer[i]}</td>
@@ -695,7 +695,7 @@ const ProjectsLab = {
           <table class="truth-table-styled" style="font-size:0.85rem;">
             <thead>
               <tr style="background:#1e293b;">
-                <th style="padding:0.4rem 0.5rem; color:var(--text-muted); font-size:0.75rem;">#</th>
+                <th style="padding:0.4rem 0.5rem; color:var(--text-muted); font-size:0.75rem;">Mintermo (m0 a m15)</th>
                 ${thInputs}
                 <th style="padding:0.4rem 0.5rem; color:var(--accent-red);">Sua resposta</th>
                 <th style="padding:0.4rem 0.5rem; color:var(--accent-green);">Esperado</th>
@@ -751,7 +751,7 @@ const ProjectsLab = {
       const isErr = (save.table[i] & 1) !== val;
       return `
         <tr style="${isErr ? 'background:rgba(239,68,68,0.07);' : ''}">
-          <td style="padding:0.35rem 0.5rem; text-align:center; color:var(--text-muted); font-size:0.78rem; font-family:var(--font-code);">${i + 1}</td>
+          <td style="padding:0.35rem 0.5rem; text-align:center; color:var(--text-muted); font-size:0.78rem; font-family:var(--font-code);">${i}</td>
           ${tdInputs}
           <td style="padding:0.35rem 0.5rem; text-align:center; font-family:var(--font-code); font-weight:bold;
                      color:${val === 1 ? 'var(--accent-green)' : 'var(--text-muted)'};">${val}</td>
@@ -763,7 +763,7 @@ const ProjectsLab = {
       <table class="truth-table-styled" style="font-size:0.85rem;">
         <thead>
           <tr style="background:#1e293b;">
-            <th style="padding:0.4rem 0.5rem; color:var(--text-muted); font-size:0.75rem;">#</th>
+            <th style="padding:0.4rem 0.5rem; color:var(--text-muted); font-size:0.75rem;">Mintermo (m0 a m15)</th>
             ${thInputs}
             <th style="padding:0.4rem 0.5rem; color:var(--primary); font-family:var(--font-code);">${outDef.key}</th>
           </tr>

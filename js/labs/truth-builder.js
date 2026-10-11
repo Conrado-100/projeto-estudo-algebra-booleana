@@ -126,7 +126,7 @@ const TruthBuilderLab = {
         <table class="truth-table-styled" style="width: 100%; border-collapse: collapse; background: var(--bg-dark); border-radius: 8px; overflow: hidden;">
           <thead>
             <tr style="border-bottom: 2px solid var(--border-color); background: #1e293b;">
-              <th style="padding: 0.6rem; text-align: center; color: var(--text-muted); font-size: 0.8rem;">#</th>
+              <th style="padding: 0.6rem; text-align: center; color: var(--text-muted); font-size: 0.8rem;">Mintermo (m0 a m${tt.length - 1})</th>
       `;
 
       vars.forEach(v => {
@@ -144,7 +144,7 @@ const TruthBuilderLab = {
         const rowBg  = idx % 2 === 0 ? '' : 'background: rgba(255,255,255,0.02);';
 
         tableHtml += `<tr style="border-bottom: 1px solid var(--border-color); ${rowBg}">`;
-        tableHtml += `<td style="padding: 0.5rem; text-align: center; color: var(--text-muted); font-size: 0.8rem;">${idx + 1}</td>`;
+        tableHtml += `<td style="padding: 0.5rem; text-align: center; color: var(--text-muted); font-size: 0.8rem;">${idx}</td>`;
 
         vars.forEach(v => {
           tableHtml += `<td style="padding: 0.5rem; text-align: center; font-family: var(--font-code);">${row.inputs[v]}</td>`;

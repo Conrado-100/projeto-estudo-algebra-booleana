@@ -329,28 +329,37 @@ const minimizationCases = [
   },
 ];
 
+function toLogicEngineExpression(expression) {
+  if (expression === '0' || expression === '1') return expression;
+  return expression.split(' + ').map(product =>
+    [...product.matchAll(/([ABCD])(\u0304?)/g)]
+      .map(([, variable, overline]) => `${overline ? '~' : ''}${variable}`)
+      .join('.')
+  ).join('+');
+}
+
 minimizationCases.forEach(tc => {
   KMapLab.numVars = tc.numVars;
   KMapLab.cellValues = { ...tc.cells };
 
-  const minterms = KMapLab.getMinterms();
-  const allGroups = KMapLab.findAllGroups();
-  const validGroups = allGroups.filter(g => [...g.minterms].every(mt => minterms.has(mt)));
-  const coverage = KMapLab.selectCoverage(minterms, validGroups);
-  const terms = [...new Set(coverage.map(g => KMapLab.groupToExpression(g)))];
-  const expression = terms.join(' + ');
+  const minterms = new Set(Object.entries(KMapLab.cellValues)
+    .filter(([, value]) => value === 1)
+    .map(([key]) => {
+      const [rIdx, cIdx] = key.split('_').map(Number);
+      return KMapEngine.getMintermIndex(tc.numVars, rIdx, cIdx);
+    }));
+  const expression = KMapEngine.minimizeMap(tc.numVars, KMapLab.cellValues);
 
-  const struct = KMapEngine.getMapStructure(tc.numVars);
-  const vars = [...struct.rowVars, ...struct.colVars];
+  const vars = 'ABCD'.slice(0, tc.numVars).split('');
+  const logicExpression = toLogicEngineExpression(expression);
 
   // Valida equivalência com referência baseada nos mintermos
   const refFn = (inputs) => {
     const mt = vars.reduce((acc, v, i) => (acc << 1) | (inputs[v] ? 1 : 0), 0);
     return minterms.has(mt) ? 1 : 0;
   };
-  const isEquiv = LogicEngine.areEquivalent(expression, expression === '1' ? '1' :
-    (expression === '0' ? '0' : expression), vars) &&
-    LogicEngine.generateTruthTable(vars, inp => LogicEngine.evaluate(expression, inp))
+  const isEquiv = LogicEngine.areEquivalent(logicExpression, logicExpression, vars) &&
+    LogicEngine.generateTruthTable(vars, inp => LogicEngine.evaluate(logicExpression, inp))
       .every((row, i) => {
         const mt = vars.reduce((acc, v, j) => (acc << 1) | (row.inputs[v] ? 1 : 0), 0);
         return row.output === (minterms.has(mt) ? 1 : 0);
@@ -363,14 +372,14 @@ minimizationCases.forEach(tc => {
 // Testa caso 0 mintermos → F=0
 KMapLab.numVars = 2;
 KMapLab.cellValues = {};
-const zeroMints = KMapLab.getMinterms();
-test('MIN-ZERO', 'KMap sem mintermos → getMinterms() vazio', 0, zeroMints.size);
+const zeroExpr = KMapEngine.minimizeMap(KMapLab.numVars, KMapLab.cellValues);
+test('MIN-ZERO', 'KMap sem mintermos → F=0', '0', zeroExpr);
 
 // Testa todos mintermos → F=1
 KMapLab.numVars = 2;
 KMapLab.cellValues = { '0_0':1, '0_1':1, '1_0':1, '1_1':1 };
-const allMints = KMapLab.getMinterms();
-test('MIN-ALL', 'KMap todos mintermos → size=4', 4, allMints.size);
+const allExpr = KMapEngine.minimizeMap(KMapLab.numVars, KMapLab.cellValues);
+test('MIN-ALL', 'KMap todos mintermos → F=1', '1', allExpr);
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // 7. RESERVATÓRIO — 8 combinações + atualização dos sensor-dots
