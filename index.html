@@ -19,6 +19,7 @@
     <nav class="top-nav" role="navigation" aria-label="Navegação principal">
       <button id="nav-modules-btn" class="nav-btn active" aria-pressed="true" aria-label="Ver trilha de módulos">Trilha de Módulos</button>
       <button id="nav-labs-btn" class="nav-btn" aria-pressed="false" aria-label="Ver laboratórios diretos">Laboratórios Diretos</button>
+      <button id="nav-questions-btn" class="nav-btn" aria-pressed="false" aria-label="Ver questões práticas">Questões</button>
     </nav>
     <div class="progress-bar-header">
       <span id="progress-text">Progresso: 0%</span>
@@ -59,6 +60,11 @@
         <!-- Renderização dinâmica do laboratório selecionado -->
       </div>
     </section>
+
+    <!-- VISÃO 3: QUESTÕES PRÁTICAS -->
+    <section id="view-questions" class="view-section">
+      <div id="projects-container" role="region" aria-label="Área de questões práticas"></div>
+    </section>
   </main>
 
   <footer class="app-footer">
@@ -79,6 +85,7 @@
   <script src="js/labs/circuit-builder.js"></script>
   <script src="js/labs/reservoir-sim.js"></script>
   <script src="js/labs/priority-sim.js"></script>
+  <script src="js/labs/projects-lab.js"></script>
 
   <!-- Script Principal da Aplicação -->
   <script src="js/app.js"></script>

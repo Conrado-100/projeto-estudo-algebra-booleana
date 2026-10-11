@@ -116,16 +116,11 @@ const ProjectsLab = {
 
     // KMapEngine retorna a expressão com A,B,C,D genéricos + barra combining char (D̄).
     // Substitui pelas variáveis reais do projeto (mantém a notação de barra).
-    return minimized
-      .replace(/\bA\b/g, varNames[0])
-      .replace(/\bB\b/g, varNames[1])
-      .replace(/\bC\b/g, varNames[2])
-      .replace(/\bD\b/g, varNames[3])
-      // Barras: KMapEngine usa combining overline (U+0304) após a letra
-      .replace(new RegExp(`${varNames[0]}\u0304`, 'g'), `${varNames[0]}\u0304`)
-      .replace(new RegExp(`${varNames[1]}\u0304`, 'g'), `${varNames[1]}\u0304`)
-      .replace(new RegExp(`${varNames[2]}\u0304`, 'g'), `${varNames[2]}\u0304`)
-      .replace(new RegExp(`${varNames[3]}\u0304`, 'g'), `${varNames[3]}\u0304`);
+    // KMapEngine usa A-D genéricos, possivelmente adjacentes em um produto.
+    return minimized.replace(/[ABCD](?:\u0304)?/g, literal => {
+      const variable = varNames['ABCD'.indexOf(literal[0])];
+      return `${variable}${literal.slice(1)}`;
+    });
   },
 
   // ── Definição dos Projetos ──────────────────────────────────────────────────

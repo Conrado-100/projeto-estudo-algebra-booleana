@@ -35,26 +35,33 @@ document.addEventListener('DOMContentLoaded', () => {
   // Alternância de Abas Superiores (Trilha vs Laboratórios Diretos)
   const navModulesBtn = document.getElementById('nav-modules-btn');
   const navLabsBtn = document.getElementById('nav-labs-btn');
+  const navQuestionsBtn = document.getElementById('nav-questions-btn');
   const viewModules = document.getElementById('view-modules');
   const viewLabs = document.getElementById('view-labs');
+  const viewQuestions = document.getElementById('view-questions');
+
+  const setTopView = (activeButton, activeView) => {
+    [[navModulesBtn, viewModules], [navLabsBtn, viewLabs], [navQuestionsBtn, viewQuestions]]
+      .forEach(([button, view]) => {
+        const isActive = button === activeButton;
+        button.classList.toggle('active', isActive);
+        button.setAttribute('aria-pressed', String(isActive));
+        view.classList.toggle('active', view === activeView);
+      });
+  };
 
   navModulesBtn.addEventListener('click', () => {
-    navModulesBtn.classList.add('active');
-    navLabsBtn.classList.remove('active');
-    navModulesBtn.setAttribute('aria-pressed', 'true');
-    navLabsBtn.setAttribute('aria-pressed', 'false');
-    viewModules.classList.add('active');
-    viewLabs.classList.remove('active');
+    setTopView(navModulesBtn, viewModules);
   });
 
   navLabsBtn.addEventListener('click', () => {
-    navLabsBtn.classList.add('active');
-    navModulesBtn.classList.remove('active');
-    navLabsBtn.setAttribute('aria-pressed', 'true');
-    navModulesBtn.setAttribute('aria-pressed', 'false');
-    viewLabs.classList.add('active');
-    viewModules.classList.remove('active');
+    setTopView(navLabsBtn, viewLabs);
     loadLab('gates');
+  });
+
+  navQuestionsBtn.addEventListener('click', () => {
+    setTopView(navQuestionsBtn, viewQuestions);
+    loadLab('projects', document.getElementById('projects-container'));
   });
 
   // Eventos de troca de laboratório na aba direta
@@ -104,6 +111,7 @@ function loadLab(labType, targetContainer = null) {
     case 'circuit': CircuitBuilderLab.render(container); break;
     case 'reservoir': ReservoirSimLab.render(container); break;
     case 'priority': PrioritySimLab.render(container); break;
+    case 'projects': ProjectsLab.render(container); break;
     default: GatesLab.render(container); break;
   }
 }
